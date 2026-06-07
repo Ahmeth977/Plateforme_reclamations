@@ -1,0 +1,51 @@
+/* assets/css/style.css - Styles supplémentaires pour les logos */
+
+/* Logo dans la navbar */
+.navbar-brand .logo-img {
+    height: 50px;
+    width: auto;
+    border-radius: 10px;
+}
+
+/* Logo dans le footer */
+.footer-logo {
+    height: 70px;
+    width: auto;
+    margin-bottom: 15px;
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* Logo dans les cartes */
+.card-logo {
+    height: 40px;
+    width: auto;
+    margin-right: 10px;
+}
+
+/* Page de connexion logo */
+.login-logo {
+    height: 100px;
+    width: auto;
+    margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar-brand .logo-img {
+        height: 40px;
+    }
+    
+    .navbar-brand .logo-title {
+        font-size: 0.9rem;
+    }
+    
+    .navbar-brand .logo-subtitle {
+        font-size: 0.6rem;
+    }
+    
+    .footer-logo {
+        height: 50px;
+    }
+}
