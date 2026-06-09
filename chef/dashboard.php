@@ -242,4 +242,249 @@ require_once '../includes/header.php';
     /* Animation */
     @keyframes fadeInUp {
         from {
-            opacity: 0;
+            opacity: 0;opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    /* Modal personnalisé */
+    .modal-custom .modal-content {
+        border-radius: 20px;
+        overflow: hidden;
+    }
+    
+    /* Search bar */
+    .search-input {
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        padding: 10px 15px;
+        width: 100%;
+        transition: all 0.3s;
+    }
+    
+    .search-input:focus {
+        border-color: #1e3c72;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+    }
+</style>
+
+<!-- Cercles flottants -->
+<div class="bg-circle" style="width: 300px; height: 300px; top: -100px; left: -100px; animation-duration: 25s;"></div>
+<div class="bg-circle" style="width: 200px; height: 200px; bottom: 50px; right: -50px; animation-duration: 20s;"></div>
+<div class="bg-circle" style="width: 150px; height: 150px; top: 40%; right: 10%; animation-duration: 18s;"></div>
+<div class="bg-circle" style="width: 100px; height: 100px; bottom: 20%; left: 5%; animation-duration: 22s;"></div>
+<div class="bg-circle" style="width: 250px; height: 250px; top: 60%; left: -80px; animation-duration: 30s;"></div>
+
+<div class="container mt-4">
+    <!-- Welcome Card -->
+    <div class="welcome-card fade-in-up">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h3><i class="fas fa-chalkboard-user me-2"></i> Bonjour, Chef <?php echo htmlspecialchars($user_prenom . ' ' . $user_nom); ?> !</h3>
+                <p class="mb-0 text-muted">Plateforme de gestion des réclamations de bourses - UNCHK</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <button class="btn-export" onclick="window.location.href='export_excel.php'">
+                    <i class="fas fa-file-excel me-2"></i> Exporter vers Excel
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Statistiques -->
+    <div class="row mb-4 fade-in-up" style="animation-delay: 0.1s;">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="stat-number"><?php echo $stats['total']; ?></div>
+                <div class="stat-label">Total réclamations</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-number">
+                    <?php 
+                    $en_attente = 0;
+                    foreach($stats['par_statut'] as $s) {
+                        if($s['statut'] == 'en_attente') $en_attente = $s['count'];
+                    }
+                    echo $en_attente;
+                    ?>
+                </div>
+                <div class="stat-label">En attente</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #00b894, #55efc4);">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-number">
+                    <?php 
+                    $validees = 0;
+                    foreach($stats['par_statut'] as $s) {
+                        if($s['statut'] == 'validee') $validees = $s['count'];
+                    }
+                    echo $validees;
+                    ?>
+                </div>
+                <div class="stat-label">Validées</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-number">
+                    <?php 
+                    $rejetees = 0;
+                    foreach($stats['par_statut'] as $s) {
+                        if($s['statut'] == 'rejetee') $rejetees = $s['count'];
+                    }
+                    echo $rejetees;
+                    ?>
+                </div>
+                <div class="stat-label">Rejetées</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Filtres et recherche -->
+    <div class="filter-section fade-in-up" style="animation-delay: 0.15s;">
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <label><i class="fas fa-filter"></i> Statut</label>
+                <select id="filterStatut" class="form-control">
+                    <option value="">Tous</option>
+                    <option value="en_attente"> En attente</option>
+                    <option value="validee"> Validée</option>
+                    <option value="rejetee">Rejetée</option>
+                    <option value="transmise"> Transmise</option>
+                    <option value="cloturee"> Clôturée</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-2">
+                <label><i class="fas fa-tag"></i> Type</label>
+                <select id="filterType" class="form-control">
+                    <option value="">Tous</option>
+                    <option value="contestation_montant"> Contestation montant</option>
+                    <option value="retard_paiement"> Retard paiement</option>
+                    <option value="erreur_administrative"> Erreur administrative</option>
+                    <option value="autre"> Autre</option>
+                </select>
+            </div>
+            <div class="col-md-4 mb-2">
+                <label><i class="fas fa-search"></i> Recherche</label>
+                <input type="text" id="searchInput" class="search-input" placeholder="N° réclamation, nom, email...">
+            </div>
+            <div class="col-md-2 mb-2">
+                <label>&nbsp;</label>
+                <button class="btn btn-secondary form-control" id="resetFilters">
+                    <i class="fas fa-undo-alt"></i> Réinitialiser
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Liste des réclamations -->
+    <div class="card card-modern fade-in-up" style="animation-delay: 0.2s;">
+        <div class="card-header-gradient">
+            <h5 class="mb-0"><i class="fas fa-list me-2"></i> Gestion des réclamations</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-custom table-hover mb-0" id="reclamationsTable">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag"></i> N°</th>
+                            <th><i class="fas fa-calendar"></i> Date</th>
+                            <th><i class="fas fa-user"></i> Étudiant</th>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th><i class="fas fa-id-card"></i> CNI</th>
+                            <th><i class="fas fa-phone"></i> Téléphone</th>
+                            <th><i class="fas fa-tag"></i> Type</th>
+                            <th><i class="fas fa-heading"></i> Titre</th>
+                            <th><i class="fas fa-chart-line"></i> Statut</th>
+                            <th><i class="fas fa-cog"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($reclamations as $rec): ?>
+                        <tr data-statut="<?php echo $rec['statut']; ?>" data-type="<?php echo $rec['type_reclamation']; ?>">
+                            <td><strong><?php echo htmlspecialchars($rec['numero_reclamation']); ?></strong></td>
+                            <td><?php echo date('d/m/Y', strtotime($rec['date_depot'])); ?></td>
+                            <td><?php echo htmlspecialchars($rec['prenom'] . ' ' . $rec['nom']); ?></td>
+                            <td><?php echo htmlspecialchars($rec['email']); ?></td>
+                            <td><?php echo htmlspecialchars($rec['num_piece_identite'] ?? '-'); ?></td>
+                            <td><?php echo htmlspecialchars($rec['telephone'] ?? '-'); ?></td>
+                            <td>
+                                <?php
+                                $type_icons = [
+                                    'contestation_montant' => '',
+                                    'retard_paiement' => '',
+                                    'erreur_administrative' => '',
+                                    'autre' => ''
+                                ];
+                                echo $type_icons[$rec['type_reclamation']] . ' ' . str_replace('_', ' ', $rec['type_reclamation']);
+                                ?>
+                            </td>
+                            <td><?php echo htmlspecialchars(substr($rec['titre'], 0, 35)); ?></td>
+                            <td>
+                                <select class="status-select form-select form-select-sm" data-id="<?php echo $rec['id']; ?>" style="width: 140px;">
+                                    <option value="en_attente" <?php echo $rec['statut'] == 'en_attente' ? 'selected' : ''; ?>> En attente</option>
+                                    <option value="validee" <?php echo $rec['statut'] == 'validee' ? 'selected' : ''; ?>> Validée</option>
+                                    <option value="rejetee" <?php echo $rec['statut'] == 'rejetee' ? 'selected' : ''; ?>> Rejetée</option>
+                                    <option value="transmise" <?php echo $rec['statut'] == 'transmise' ? 'selected' : ''; ?>> Transmise</option>
+                                    <option value="cloturee" <?php echo $rec['statut'] == 'cloturee' ? 'selected' : ''; ?>> Clôturée</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-info action-btn" onclick="voirDetails(<?php echo $rec['id']; ?>)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Détails -->
+<div class="modal fade" id="detailsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white;">
+                <h5 class="modal-title">
+                    <i class="fas fa-file-alt me-2"></i> Détails de la réclamation
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalDetailsContent">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                    <p class="mt-2">Chargement des détails...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
