@@ -309,6 +309,45 @@ $dernieres_reclamations = $stmt->fetchAll();
                      onerror="this.onerror=null; this.src='https://via.placeholder.com/500x400?text=UNCHK+Campus';">
             </div>
         </div>
+    
       
+    </div>
+</section>
+<!-- Problématique Section -->
+<section id="problematique" class="py-5 bg-light-gray">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-4">Problématique actuelle</h2>
+            <p class="lead">Les défis que nous résolvons</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <h4>Déplacements coûteux</h4>
+                    <p>Les étudiants doivent se déplacer physiquement  pour déposer une réclamation, engendrant des frais de transport élevés.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Perte de temps</h4>
+                    <p>Les longs trajets et les délais d'attente découragent les étudiants, surtout ceux en province.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <h4>Dossiers perdus</h4>
+                    <p>Absence de traçabilité et de suivi des réclamations, entraînant des dossiers perdus ou non traités.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
