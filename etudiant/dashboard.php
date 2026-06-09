@@ -366,3 +366,72 @@ require_once '../includes/header.php';
             </div>
         </div>
     </div>
+
+    
+    <div class="row">
+        <!-- Formulaire de réclamation -->
+        <div class="col-lg-5 fade-in-up" style="animation-delay: 0.1s;">
+            <div class="card card-modern mb-4">
+                <div class="card-header-gradient">
+                    <h5 class="mb-0"><i class="fas fa-plus-circle me-2"></i> Nouvelle réclamation</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="action" value="add_reclamation">
+                        
+                        <!-- Informations personnelles -->
+                        <div class="alert alert-info mb-3">
+                            <i class="fas fa-info-circle"></i> Vos informations personnelles
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group-modern">
+                                    <label><i class="fas fa-user"></i> Nom</label>
+                                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($user['nom'] ?? ''); ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group-modern">
+                                    <label><i class="fas fa-user"></i> Prénom</label>
+                                    <input type="text" class="form-control" value="<?php echo htmlspecialchars($user['prenom'] ?? ''); ?>" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group-modern">
+                                    <label><i class="fas fa-id-card"></i> N° CNI/Passeport</label>
+                                    <input type="text" name="num_piece" class="form-control" 
+                                           value="<?php echo htmlspecialchars($user['num_piece_identite'] ?? ''); ?>" 
+                                           placeholder="Entrez votre numéro">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group-modern">
+                                    <label><i class="fas fa-phone"></i> Téléphone</label>
+                                    <input type="tel" name="telephone" class="form-control" 
+                                           value="<?php echo htmlspecialchars($user['telephone'] ?? ''); ?>" 
+                                           placeholder="77 123 45 67">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <!-- Détails de la réclamation -->
+                        <div class="alert alert-primary mb-3">
+                            <i class="fas fa-file-alt"></i> Détails de votre réclamation
+                        </div>
+                        
+                        <div class="form-group-modern">
+                            <label><i class="fas fa-tag"></i> Type de réclamation *</label>
+                            <select name="type" class="form-control" required>
+                                <option value="">Sélectionnez...</option>
+                                <option value="contestation_montant"> Contestation du montant</option>
+                                <option value="retard_paiement"> Retard de paiement</option>
+                                <option value="erreur_administrative"> Erreur administrative</option>
+                                <option value="autre"> Autre</option>
+                            </select>
+                        </div>
