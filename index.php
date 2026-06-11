@@ -348,6 +348,261 @@ $dernieres_reclamations = $stmt->fetchAll();
                     <p>Absence de traçabilité et de suivi des réclamations, entraînant des dossiers perdus ou non traités.</p>
                 </div>
             </div>
+            
         </div>
     </div>
 </section>
+<!-- Solution Section -->
+<section id="solution" class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <h2 class="display-4 mb-4">Notre solution</h2>
+                <p class="lead mb-4">
+                    Une plateforme web intégrée dans l'université pour simplifier la gestion des réclamations.
+                </p>
+                <div class="mb-4">
+                    <div class="d-flex mb-3">
+                        <i class="fas fa-check-circle text-success fs-4 me-3"></i>
+                        <div>
+                            <h5>Dépôt en ligne simplifié</h5>
+                            <p class="text-muted">Les étudiants déposent leurs réclamations depuis leur université</p>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-3">
+                        <i class="fas fa-check-circle text-success fs-4 me-3"></i>
+                        <div>
+                            <h5>Validation locale</h5>
+                            <p class="text-muted">Le chef de division valide ou rejette les réclamations</p>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-3">
+                        <i class="fas fa-check-circle text-success fs-4 me-3"></i>
+                        <div>
+                            <h5>Suivi en temps réel</h5>
+                            <p class="text-muted">Les étudiants suivent l'état de leurs réclamations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="card shadow-lg">
+                    <div class="card-body p-4">
+                        <h4 class="text-center mb-4">Schéma de fonctionnement</h4>
+                        <div class="text-center">
+                            <div class="step mb-3">
+                                <div class="step-number mx-auto">1</div>
+                                <p>Dépôt réclamation par l'étudiant</p>
+                                <i class="fas fa-arrow-down my-2"></i>
+                            </div>
+                            <div class="step mb-3">
+                                <div class="step-number mx-auto">2</div>
+                                <p>Validation par le Chef de division</p>
+                                <i class="fas fa-arrow-down my-2"></i>
+                            </div>
+                            <div class="step mb-3">
+                                <div class="step-number mx-auto">3</div>
+                                <p>Export Excel et envoi manuel</p>
+                                <i class="fas fa-arrow-down my-2"></i>
+                            </div>
+                            <div class="step">
+                                <div class="step-number mx-auto">4</div>
+                                <p>Traitement par la Direction des bourses</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fonctionnalités Section -->
+<section id="fonctionnalites" class="py-5 bg-light-gray">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-4">Fonctionnalités clés</h2>
+            <p class="lead">Ce que notre plateforme vous offre</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user-graduate fa-3x mb-3" style="color: var(--primary-color);"></i>
+                        <h4>Espace Étudiant</h4>
+                        <ul class="list-unstyled text-start mt-3">
+                            <li><i class="fas fa-check text-success me-2"></i> Dépôt de réclamation en ligne</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Upload de justificatifs</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Suivi en temps réel</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Historique des réclamations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="200">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chalkboard-user fa-3x mb-3" style="color: var(--primary-color);"></i>
+                        <h4>Espace Chef de division</h4>
+                        <ul class="list-unstyled text-start mt-3">
+                            <li><i class="fas fa-check text-success me-2"></i> Gestion complète des réclamations</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Validation/Rejet avec remarques</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Filtres et recherche avancée</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Export Excel automatisé</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="300">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line fa-3x mb-3" style="color: var(--primary-color);"></i>
+                        <h4>Suivi et reporting</h4>
+                        <ul class="list-unstyled text-start mt-3">
+                            <li><i class="fas fa-check text-success me-2"></i> Statistiques en temps réel</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Traçabilité des actions</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Export de données</li>
+                            <li><i class="fas fa-check text-success me-2"></i> Interface responsive</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistiques Section -->
+<section id="statistiques" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-4">Chiffres clés</h2>
+            <p class="lead">Notre plateforme en quelques chiffres</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="stat-card">
+                    <div class="stat-number"><?php echo $stats['etudiants'] ?: '100'; ?>+</div>
+                    <div class="stat-label">Étudiants inscrits</div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="stat-card">
+                    <div class="stat-number"><?php echo $stats['reclamations'] ?: '50'; ?>+</div>
+                    <div class="stat-label">Réclamations traitées</div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Satisfaction utilisateur</div>
+                </div>
+            </div>
+        </div>
+        
+        
+
+<!-- Types de réclamations -->
+<section class="py-5 bg-light-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" data-aos="fade-right">
+                <h3>Types de réclamations pris en charge</h3>
+                <div class="mt-4">
+                    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+                        <i class="fas fa-money-bill-wave text-warning fa-2x me-3 float-start"></i>
+                        <div>
+                            <strong>Contestation du montant</strong>
+                            <p class="mb-0 text-muted">Si vous n'êtes pas d'accord avec le montant attribué</p>
+                        </div>
+                    </div>
+                    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+                        <i class="fas fa-clock text-danger fa-2x me-3 float-start"></i>
+                        <div>
+                            <strong>Retard de paiement</strong>
+                            <p class="mb-0 text-muted">Signalement des retards de versement</p>
+                        </div>
+                    </div>
+                    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+                        <i class="fas fa-file-alt text-info fa-2x me-3 float-start"></i>
+                        <div>
+                            <strong>Erreur administrative</strong>
+                            <p class="mb-0 text-muted">Correction des informations erronées</p>
+                        </div>
+                    </div>
+                    <div class="mb-3 p-3 bg-white rounded shadow-sm">
+                        <i class="fas fa-question-circle text-primary fa-2x me-3 float-start"></i>
+                        <div>
+                            <strong>Autre réclamation</strong>
+                            <p class="mb-0 text-muted">Tout autre sujet n'ayant pas de catégorie spécifique</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" data-aos="fade-left">
+                <div class="card bg-white shadow-lg border-0">
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-center mb-4">Avantages de la plateforme</h5>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Zéro déplacement</span>
+                                <span>100%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" style="width: 100%">100%</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Gain de temps</span>
+                                <span>100%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" style="width: 100%">100%</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Traçabilité totale</span>
+                                <span>100%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" style="width: 100%">100%</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Sécurité des données</span>
+                                <span>100%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-danger" style="width: 100%">100%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
+    <div class="container text-center" data-aos="zoom-in">
+        <h2 class="mb-4">Prêt à simplifier vos réclamations ?</h2>
+        <p class="lead mb-4">Rejoignez-nous dès maintenant et bénéficiez d'une gestion moderne et efficace</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="login_etudiant.php" class="btn btn-light btn-lg">
+                <i class="fas fa-sign-in-alt"></i> Se connecter
+            </a>
+            <a href="#" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-question-circle"></i> En savoir plus
+            </a>
+        </div>
+    </div>
+</section>
+
+<?php require_once 'includes/footer.php'; ?>
+
+<?php
+ob_end_flush(); 
+?>
