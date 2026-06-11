@@ -1,5 +1,5 @@
 export_excel.php
-<?php
+<?ph
 // chef/export_excel.php - Export des réclamations vers Excel (sans librairie externe)
 
 // Démarrer la session si non active
