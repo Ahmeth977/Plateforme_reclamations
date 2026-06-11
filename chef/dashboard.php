@@ -488,3 +488,248 @@ require_once '../includes/header.php';
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Remarque -->
+<div class="modal fade" id="remarqueModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white;">
+                <h5 class="modal-title">
+                    <i class="fas fa-comment-dots me-2"></i> Ajouter une remarque
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Voulez-vous ajouter une remarque pour cette réclamation ?</p>
+                <textarea id="remarqueText" class="form-control" rows="4" placeholder="Saisissez votre remarque ici..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="confirmRemarque">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let currentReclamationId = null;
+let currentNewStatut = null;
+
+// Filtres et recherche
+document.addEventListener('DOMContentLoaded', function() {
+    const filterStatut = document.getElementById('filterStatut');
+    const filterType = document.getElementById('filterType');
+    const searchInput = document.getElementById('searchInput');
+    const resetBtn = document.getElementById('resetFilters');
+    const table = document.getElementById('reclamationsTable');
+    const rows = table.querySelectorAll('tbody tr');
+    
+    function filterTable() {
+        const statut = filterStatut.value;
+        const type = filterType.value;
+        const search = searchInput.value.toLowerCase();
+        
+        rows.forEach(row => {
+            let show = true;
+            
+            if (statut && row.dataset.statut !== statut) show = false;
+            if (type && row.dataset.type !== type) show = false;
+            if (search) {
+                const text = row.textContent.toLowerCase();
+                if (!text.includes(search)) show = false;
+            }
+            
+            row.style.display = show ? '' : 'none';
+        });
+    }
+    
+    filterStatut.addEventListener('change', filterTable);
+    filterType.addEventListener('change', filterTable);
+    searchInput.addEventListener('keyup', filterTable);
+    resetBtn.addEventListener('click', function() {
+        filterStatut.value = '';
+        filterType.value = '';
+        searchInput.value = '';
+        filterTable();
+    });
+});
+
+// Changement de statut
+document.querySelectorAll('.status-select').forEach(select => {
+    select.addEventListener('change', function() {
+        currentReclamationId = this.dataset.id;
+        currentNewStatut = this.value;
+        
+        // Ouvrir le modal de remarque
+        const modal = new bootstrap.Modal(document.getElementById('remarqueModal'));
+        modal.show();
+    });
+});
+
+// Confirmation de la remarque
+document.getElementById('confirmRemarque').addEventListener('click', function() {
+    const remarque = document.getElementById('remarqueText').value;
+    
+    // Mettre à jour via AJAX
+    fetch(window.location.href, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: `id=${currentReclamationId}&statut=${currentNewStatut}&remarque=${encodeURIComponent(remarque)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Erreur lors de la mise à jour');
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Erreur lors de la mise à jour');
+    });
+    
+    // Fermer le modal
+    bootstrap.Modal.getInstance(document.getElementById('remarqueModal')).hide();
+    document.getElementById('remarqueText').value = '';
+});
+
+// Voir les détails
+function voirDetails(id) {
+    const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
+    const modalContent = document.getElementById('modalDetailsContent');
+    
+    modalContent.innerHTML = `
+        <div class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-2">Chargement des détails...</p>
+        </div>
+    `;
+    
+    modal.show();
+    
+    fetch(`../api/get_reclamation_details_admin.php?id=${id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const statutLabels = {
+                    'en_attente': ' En attente',
+                    'validee': ' Validée',
+                    'transmise': ' Transmise',
+                    'rejetee': ' Rejetée',
+                    'cloturee': ' Clôturée'
+                };
+                
+                modalContent.innerHTML = `
+                    <div class="p-3">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <strong><i class="fas fa-hashtag"></i> Numéro:</strong>
+                                <p class="mt-1">${data.reclamation.numero_reclamation}</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <strong><i class="fas fa-calendar"></i> Date dépôt:</strong>
+                                <p class="mt-1">${new Date(data.reclamation.date_depot).toLocaleString('fr-FR')}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong><i class="fas fa-user"></i> Informations étudiant</strong>
+                            <div class="p-3 bg-light rounded mt-2">
+                                <p><strong>Nom complet:</strong> ${escapeHtml(data.etudiant.prenom)} ${escapeHtml(data.etudiant.nom)}</p>
+                                <p><strong>Email:</strong> ${escapeHtml(data.etudiant.email)}</p>
+                                <p><strong>CNI/Passeport:</strong> ${escapeHtml(data.etudiant.num_piece_identite || 'Non renseigné')}</p>
+                                <p><strong>Téléphone:</strong> ${escapeHtml(data.etudiant.telephone || 'Non renseigné')}</p>
+                                <p><strong>Adresse:</strong> ${escapeHtml(data.etudiant.adresse || 'Non renseignée')}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong><i class="fas fa-tag"></i> Type:</strong>
+                            <p class="mt-1">${data.reclamation.type_reclamation.replace(/_/g, ' ')}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong><i class="fas fa-heading"></i> Titre:</strong>
+                            <p class="mt-1">${escapeHtml(data.reclamation.titre)}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong><i class="fas fa-align-left"></i> Description:</strong>
+                            <div class="p-3 bg-light rounded mt-2">
+                                ${escapeHtml(data.reclamation.description).replace(/\n/g, '<br>')}
+                            </div>
+                        </div>
+                        
+                        ${data.reclamation.remarque_interne ? `
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-comment-dots me-2"></i>
+                            <strong>Remarque interne:</strong><br>
+                            ${escapeHtml(data.reclamation.remarque_interne).replace(/\n/g, '<br>')}
+                        </div>
+                        ` : ''}
+                        
+                        ${data.reclamation.fichier_justificatif ? `
+                        <div class="mt-3">
+                            <strong><i class="fas fa-paperclip me-2"></i>Justificatif:</strong><br>
+                            <a href="../uploads/${data.reclamation.fichier_justificatif}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                <i class="fas fa-download me-1"></i> Voir le fichier
+                            </a>
+                        </div>
+                        ` : ''}
+                        
+                        <hr class="mt-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <small class="text-muted">
+                                    <i class="fas fa-chart-line"></i> Statut: <span class="status-badge status-${data.reclamation.statut}">${statutLabels[data.reclamation.statut]}</span>
+                                </small>
+                            </div>
+                            ${data.reclamation.date_traitement ? `
+                            <div class="col-md-6 text-end">
+                                <small class="text-muted">
+                                    <i class="fas fa-clock"></i> Traitée le: ${new Date(data.reclamation.date_traitement).toLocaleString('fr-FR')}
+                                </small>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            } else {
+                modalContent.innerHTML = `
+                    <div class="text-center py-4 text-danger">
+                        <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                        <p>Erreur lors du chargement des détails</p>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            modalContent.innerHTML = `
+                <div class="text-center py-4 text-danger">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                    <p>Une erreur est survenue</p>
+                </div>
+            `;
+        });
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+</script>
+
+<?php require_once '../includes/footer.php'; ?>
