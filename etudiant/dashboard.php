@@ -435,3 +435,56 @@ require_once '../includes/header.php';
                                 <option value="autre"> Autre</option>
                             </select>
                         </div>
+<div class="form-group-modern">
+                            <label><i class="fas fa-heading"></i> Titre *</label>
+                            <input type="text" name="titre" class="form-control" placeholder="Ex: Retard de bourse" required>
+                        </div>
+                        
+                        <div class="form-group-modern">
+                            <label><i class="fas fa-align-left"></i> Description détaillée *</label>
+                            <textarea name="description" class="form-control" rows="4" 
+                                      placeholder="Décrivez précisément votre réclamation..." required></textarea>
+                        </div>
+                        
+                        <div class="form-group-modern">
+                            <label><i class="fas fa-paperclip"></i> Fichier justificatif</label>
+                            <input type="file" name="justificatif" class="form-control" accept=".pdf,.jpg,.png,.doc,.docx">
+                            <small class="text-muted"><i class="fas fa-info-circle"></i> PDF, JPG, PNG, DOC (Max 5MB)</small>
+                        </div>
+                        
+                        <button type="submit" class="btn-gradient-custom">
+                            <i class="fas fa-paper-plane"></i> Déposer la réclamation
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Conseils rapides -->
+            <div class="card card-modern">
+                <div class="card-header-success">
+                    <h5 class="mb-0"><i class="fas fa-lightbulb me-2"></i> Conseils utiles</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Soyez précis dans votre description</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Ajoutez des justificatifs si possible</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Suivez l'état de vos réclamations</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Vérifiez vos emails régulièrement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Liste des réclamations -->
+        <div class="col-lg-7 fade-in-up" style="animation-delay: 0.2s;">
+            <div class="card card-modern">
+                <div class="card-header-info">
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i> Mes réclamations</h5>
+                </div>
+                <div class="card-body p-0">
+                    <?php if(empty($reclamations)): ?>
+                        <div class="text-center p-5">
+                            <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+                            <p class="text-muted">Vous n'avez aucune réclamation pour le moment.</p>
+                            <small>Utilisez le formulaire ci-contre pour déposer votre première réclamation.</small>
+                        </div>
