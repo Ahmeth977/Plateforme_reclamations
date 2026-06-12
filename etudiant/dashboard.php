@@ -488,3 +488,88 @@ require_once '../includes/header.php';
                             <p class="text-muted">Vous n'avez aucune réclamation pour le moment.</p>
                             <small>Utilisez le formulaire ci-contre pour déposer votre première réclamation.</small>
                         </div>
+              <?php else: ?>
+                        <div class="table-responsive">
+                            <table class="table table-custom table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th><i class="fas fa-hashtag"></i> N°</th>
+                                        <th><i class="fas fa-tag"></i> Type</th>
+                                        <th><i class="fas fa-heading"></i> Titre</th>
+                                        <th><i class="fas fa-calendar"></i> Date</th>
+                                        <th><i class="fas fa-chart-line"></i> Statut</th>
+                                        <th><i class="fas fa-cog"></i> Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($reclamations as $rec): ?>
+                                    <tr>
+                                        <td><strong><?php echo htmlspecialchars($rec['numero_reclamation']); ?></strong></td>
+                                        <td>
+                                            <?php
+                                            $type_icons = [
+                                                'contestation_montant' => '',
+                                                'retard_paiement' => '',
+                                                'erreur_administrative' => '',
+                                                'autre' => ''
+                                            ];
+                                            echo $type_icons[$rec['type_reclamation']] . ' ' . str_replace('_', ' ', $rec['type_reclamation']);
+                                            ?>
+                                        </td>
+                                        <td><?php echo htmlspecialchars(substr($rec['titre'], 0, 30)); ?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($rec['date_depot'])); ?></td>
+                                        <td>
+                                            <span class="status-badge status-<?php echo $rec['statut']; ?>">
+                                                <?php 
+                                                $statuts = [
+                                                    'en_attente' => ' En attente',
+                                                    'validee' => ' Validée',
+                                                    'transmise' => ' Transmise',
+                                                    'rejetee' => ' Rejetée',
+                                                    'cloturee' => ' Clôturée'
+                                                ];
+                                                echo $statuts[$rec['statut']];
+                                                ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button class="btn-view-details" onclick="showDetails(<?php echo $rec['id']; ?>)">
+                                                <i class="fas fa-eye"></i> Détails
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Détails unique (hors boucle) -->
+<div class="modal fade" id="detailsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title">
+                    <i class="fas fa-file-alt me-2"></i> Détails de la réclamation
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalDetailsContent">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                    <p class="mt-2">Chargement des détails...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
