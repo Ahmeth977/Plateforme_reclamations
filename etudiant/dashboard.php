@@ -649,3 +649,144 @@ require_once '../includes/header.php';
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+function showDetails(reclamationId) {
+    // Afficher le modal avec chargement
+    const modal = new bootstrap.Modal(document.getElementById('detailsModal'));
+    const modalContent = document.getElementById('modalDetailsContent');
+    
+    // Afficher le spinner de chargement
+    modalContent.innerHTML = `
+        <div class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p class="mt-2 text-muted">Chargement des détails...</p>
+        </div>
+    `;
+    
+    modal.show();
+    
+    // Charger les détails via AJAX
+    fetch(`../api/get_reclamation_details.php?id=${reclamationId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur réseau');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Données reçues:', data); // Pour déboguer
+            
+            if (data.success && data.reclamation) {
+                // Afficher les détails
+                let remarqueHtml = '';
+                if (data.reclamation.remarque_interne) {
+                    remarqueHtml = `
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-comment-dots me-2"></i>
+                            <strong>Remarque du chef:</strong><br>
+                            ${escapeHtml(data.reclamation.remarque_interne).replace(/\n/g, '<br>')}
+                        </div>
+                    `;
+                }
+                
+                let fichierHtml = '';
+                if (data.reclamation.fichier_justificatif) {
+                    fichierHtml = `
+                        <div class="mt-3">
+                            <strong><i class="fas fa-paperclip me-2"></i>Justificatif:</strong><br>
+                            <a href="../uploads/${encodeURIComponent(data.reclamation.fichier_justificatif)}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                <i class="fas fa-download me-1"></i> Voir le fichier
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                const statutLabels = {
+                    'en_attente': ' En attente',
+                    'validee': ' Validée',
+                    'transmise': ' Transmise',
+                    'rejetee': ' Rejetée',
+                    'cloturee': ' Clôturée'
+                };
+                
+                const typeLabels = {
+                    'contestation_montant': ' Contestation du montant',
+                    'retard_paiement': ' Retard de paiement',
+                    'erreur_administrative': ' Erreur administrative',
+                    'autre': ' Autre'
+                };
+                
+                modalContent.innerHTML = `
+                    <div class="p-3">
+                        <div class="mb-3">
+                            <strong><i class="fas fa-hashtag me-2"></i>Numéro de réclamation:</strong>
+                            <p class="mt-1"><span class="badge bg-secondary">${escapeHtml(data.reclamation.numero_reclamation)}</span></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <strong><i class="fas fa-tag me-2"></i>Type:</strong>
+                                <p class="mt-1">${typeLabels[data.reclamation.type_reclamation] || data.reclamation.type_reclamation}</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <strong><i class="fas fa-chart-line me-2"></i>Statut:</strong>
+                                <p class="mt-1"><span class="status-badge status-${data.reclamation.statut}">${statutLabels[data.reclamation.statut] || data.reclamation.statut}</span></p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-heading me-2"></i>Titre:</strong>
+                            <p class="mt-1">${escapeHtml(data.reclamation.titre)}</p>
+                        </div>
+                        <div class="mb-3">
+                            <strong><i class="fas fa-align-left me-2"></i>Description:</strong>
+                            <div class="mt-1 p-3 bg-light rounded">${escapeHtml(data.reclamation.description).replace(/\n/g, '<br>')}</div>
+                        </div>
+                        ${remarqueHtml}
+                        ${fichierHtml}
+                        <hr class="mt-4">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar me-1"></i> Déposée le: ${new Date(data.reclamation.date_depot).toLocaleString('fr-FR')}
+                        </small>
+                    </div>
+                `;
+            } else {
+                modalContent.innerHTML = `
+                    <div class="text-center py-4 text-danger">
+                        <i class="fas fa-exclamation-circle fa-3x mb-3"></i>
+                        <p>Erreur lors du chargement des détails</p>
+                        <p class="small">${data.message || 'Veuillez réessayer'}</p>
+                        <button class="btn btn-primary btn-sm mt-3" onclick="showDetails(${reclamationId})">
+                            <i class="fas fa-sync-alt"></i> Réessayer
+                        </button>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Erreur détaillée:', error);
+            modalContent.innerHTML = `
+                <div class="text-center py-4 text-danger">
+                    <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                    <p>Une erreur est survenue</p>
+                    <p class="small">${error.message}</p>
+                    <button class="btn btn-primary btn-sm mt-3" onclick="showDetails(${reclamationId})">
+                        <i class="fas fa-sync-alt"></i> Réessayer
+                    </button>
+                </div>
+            `;
+        });
+}
+
+// Fonction pour échapper le HTML
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+</script>
+
+<?php require_once '../includes/footer.php'; ?>
