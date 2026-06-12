@@ -573,3 +573,79 @@ require_once '../includes/header.php';
         </div>
     </div>
 </div>
+
+<!-- Modal Profil pour mettre à jour les informations -->
+<div class="modal fade" id="profileModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 20px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                <h5 class="modal-title"><i class="fas fa-id-card me-2"></i> Mon profil étudiant</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST">
+                <input type="hidden" name="action" value="update_profile">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-modern">
+                                <label><i class="fas fa-user"></i> Nom *</label>
+                                <input type="text" name="nom" class="form-control" value="<?php echo htmlspecialchars($user['nom'] ?? ''); ?>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-modern">
+                                <label><i class="fas fa-user"></i> Prénom *</label>
+                                <input type="text" name="prenom" class="form-control" value="<?php echo htmlspecialchars($user['prenom'] ?? ''); ?>" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-modern">
+                                <label><i class="fas fa-id-card"></i> N° Pièce d'identité</label>
+                                <input type="text" name="num_piece_identite" class="form-control" 
+                                       value="<?php echo htmlspecialchars($user['num_piece_identite'] ?? ''); ?>" 
+                                       placeholder="CNI/Passport">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-modern">
+                                <label><i class="fas fa-phone"></i> Téléphone</label>
+                                <input type="tel" name="telephone" class="form-control" 
+                                       value="<?php echo htmlspecialchars($user['telephone'] ?? ''); ?>" 
+                                       placeholder="77 123 45 67">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-modern">
+                                <label><i class="fas fa-calendar"></i> Date de naissance</label>
+                                <input type="date" name="date_naissance" class="form-control" 
+                                       value="<?php echo htmlspecialchars($user['date_naissance'] ?? ''); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-modern">
+                                <label><i class="fas fa-envelope"></i> Email (non modifiable)</label>
+                                <input type="email" class="form-control" value="<?php echo htmlspecialchars($user['email']); ?>" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-modern">
+                        <label><i class="fas fa-map-marker-alt"></i> Adresse</label>
+                        <textarea name="adresse" class="form-control" rows="2" 
+                                  placeholder="Votre adresse complète"><?php echo htmlspecialchars($user['adresse'] ?? ''); ?></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn-gradient-custom" style="width: auto; padding: 10px 20px;">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
